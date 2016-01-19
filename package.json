@@ -1,0 +1,34 @@
+{
+  "name": "password-constable",
+  "version": "1.0.0",
+  "description": "Simplified password requirement configuration",
+  "main": "index.js",
+  "scripts": {
+    "prebuild": "rm -rf dist && mkdir dist",
+    "build": "babel src/index.js -o dist/index.js",
+    "test": "mocha src/index.test.js -w --compilers js:babel-core/register"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stingerlabs/password-constable.git"
+  },
+  "author": "David R Poindexter III <drpoindexter@gmail.com> (http://vcard.davidrpoindexter.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stingerlabs/password-constable/issues"
+  },
+  "homepage": "https://github.com/stingerlabs/password-constable#readme",
+  "dependencies": {
+    "password-sheriff": "1.0.0",
+    "zxcvbn": "4.2.0"
+  },
+  "devDependencies": {
+    "babel": "6.3.26",
+    "babel-cli": "6.4.0",
+    "babel-core": "6.4.0",
+    "babel-preset-es2015": "6.3.13",
+    "babel-preset-react": "6.3.13",
+    "chai": "3.4.1",
+    "mocha": "2.3.4"
+  }
+}
