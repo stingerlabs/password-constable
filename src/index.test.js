@@ -67,4 +67,12 @@ describe('password-constable', () => {
 			expect(Constable.test('fff', {exclude: ['dictionary']}).result).to.equal(true);
 		});
 	});
+	describe('mixed enforcements', () => {
+		it('should pass with mixed requirements', () => {
+			expect(Constable.test('ffffffffF9', {length: 8, require: ['upperCase', 'numbers']}).result).to.equal(true);
+			expect(Constable.test('ffffffffF9&', {length: 8, require: ['upperCase', 'numbers', 'specialCharacters']}).result).to.equal(true);
+			expect(Constable.test('ffffffffF9&', {length: 8, require: ['upperCase', 'numbers', 'specialCharacters'], exclude: ['dictionary']}).result).to.equal(true);
+			expect(Constable.test('ballffffffffF9&', {length: 8, require: ['upperCase', 'numbers', 'specialCharacters'], exclude: ['dictionary']}).result).to.equal(false);
+		});
+	});
 });
