@@ -1,23 +1,15 @@
 import { PasswordPolicy } from 'password-sheriff';
-
 import { charsets } from 'password-sheriff';
 import zxcvbn from 'zxcvbn'
 
-module.exports = {
-	strength: getPasswordStrength,
-	test: testPassword
-};
+const getPasswordStrength = password => zxcvbn(password).score;
 
-function getPasswordStrength(password) {
-	return zxcvbn(password).score;
-}
-
-function testPassword(password, requirements = {}) {
+const testPassword = (password, requirements = {}) => {
 	let response = {};
 	let errors = {};
 	let passing = true;
 
-	let rules = configureRules(requirements);
+	const rules = configureRules(requirements);
 
 	if( rules.length && !rules.length.check(password) ) {
 		passing = false;
@@ -45,14 +37,15 @@ function testPassword(password, requirements = {}) {
 	}
 	
 	response.result = passing;
+
 	if( errors ) {
 		response.errors = errors;
 	}
 
 	return response;
-}
+};
 
-function configureRules(requirements) {
+const configureRules = requirements => {
 
 	let enforcer = {};
 
@@ -87,12 +80,13 @@ function configureRules(requirements) {
 
 
 	return enforcer;
-}
+};
 
 /**
- * Custom password sheriff policy
+ * Custom password sheriff policy incorporating zxcvbn
+ * dictionary word validation
  */
-function DictionaryWordsRule() {}
+const DictionaryWordsRule = () => {};
 
 DictionaryWordsRule.prototype.validate = function (options) {
 	if (!options) { throw new Error('options should be an object'); }
@@ -101,17 +95,8 @@ DictionaryWordsRule.prototype.validate = function (options) {
 	}
 };
 
-DictionaryWordsRule.prototype.assert = function (options, password) {
-	if(!password) { return false; }
-	if( typeof password !== 'string' ) {
-		throw new Error('password should be a string');
-	}
-
-	if( options.allow === false && containsDictionaryWords(password) ) {
-		return false;
-	}
-
-	return true;
+DictionaryWordsRule.prototype.assert = function (options, password = '') {
+	return !(options.allow === false && containsDictionaryWords(password));
 };
 
 DictionaryWordsRule.prototype.explain = function (options) {
@@ -128,16 +113,24 @@ DictionaryWordsRule.prototype.explain = function (options) {
 	}
 };
 
-function containsDictionaryWords(testString) {
-	let result = zxcvbn(testString);
-	let sequenceArray = result.sequence;
+const containsDictionaryWords = testString => {
+	const result = zxcvbn(testString);
+	const sequenceArray = result.sequence;
 	let containsWord = false;
 
-	sequenceArray.forEach((sequence) => {
+	sequenceArray.forEach(sequence => {
 		if( sequence.pattern === 'dictionary' ) {
 			containsWord = true;
 		}
 	});
 
 	return containsWord;
-}
+};
+
+//@TODO Cleanup for es6 exports
+const Constable = {
+	strength: getPasswordStrength,
+	test: testPassword
+};
+
+export default Constable;
