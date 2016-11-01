@@ -1,5 +1,9 @@
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
 var _passwordSheriff = require('password-sheriff');
 
 var _zxcvbn = require('zxcvbn');
@@ -8,16 +12,11 @@ var _zxcvbn2 = _interopRequireDefault(_zxcvbn);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = {
-	strength: getPasswordStrength,
-	test: testPassword
+var getPasswordStrength = function getPasswordStrength(password) {
+	return (0, _zxcvbn2.default)(password).score;
 };
 
-function getPasswordStrength(password) {
-	return (0, _zxcvbn2.default)(password).score;
-}
-
-function testPassword(password) {
+var testPassword = function testPassword(password) {
 	var requirements = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
 	var response = {};
@@ -52,14 +51,15 @@ function testPassword(password) {
 	}
 
 	response.result = passing;
+
 	if (errors) {
 		response.errors = errors;
 	}
 
 	return response;
-}
+};
 
-function configureRules(requirements) {
+var configureRules = function configureRules(requirements) {
 
 	var enforcer = {};
 
@@ -93,12 +93,13 @@ function configureRules(requirements) {
 	}
 
 	return enforcer;
-}
+};
 
 /**
- * Custom password sheriff policy
+ * Custom password sheriff policy incorporating zxcvbn
+ * dictionary word validation
  */
-function DictionaryWordsRule() {}
+var DictionaryWordsRule = function DictionaryWordsRule() {};
 
 DictionaryWordsRule.prototype.validate = function (options) {
 	if (!options) {
@@ -109,19 +110,10 @@ DictionaryWordsRule.prototype.validate = function (options) {
 	}
 };
 
-DictionaryWordsRule.prototype.assert = function (options, password) {
-	if (!password) {
-		return false;
-	}
-	if (typeof password !== 'string') {
-		throw new Error('password should be a string');
-	}
+DictionaryWordsRule.prototype.assert = function (options) {
+	var password = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
 
-	if (options.allow === false && containsDictionaryWords(password)) {
-		return false;
-	}
-
-	return true;
+	return !(options.allow === false && containsDictionaryWords(password));
 };
 
 DictionaryWordsRule.prototype.explain = function (options) {
@@ -138,7 +130,7 @@ DictionaryWordsRule.prototype.explain = function (options) {
 	}
 };
 
-function containsDictionaryWords(testString) {
+var containsDictionaryWords = function containsDictionaryWords(testString) {
 	var result = (0, _zxcvbn2.default)(testString);
 	var sequenceArray = result.sequence;
 	var containsWord = false;
@@ -150,4 +142,12 @@ function containsDictionaryWords(testString) {
 	});
 
 	return containsWord;
-}
+};
+
+//@TODO Cleanup for es6 exports
+var Constable = {
+	strength: getPasswordStrength,
+	test: testPassword
+};
+
+exports.default = Constable;
