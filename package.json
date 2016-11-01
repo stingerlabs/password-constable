@@ -6,7 +6,8 @@
   "scripts": {
     "prebuild": "rm -rf dist && mkdir dist",
     "build": "babel src/index.js -o dist/index.js",
-    "test": "mocha src/index.test.js -w --compilers js:babel-core/register"
+    "test": "mocha src/index.test.js --compilers js:babel-core/register",
+    "dev": "mocha src/index.test.js -w --compilers js:babel-core/register"
   },
   "repository": {
     "type": "git",
@@ -19,8 +20,8 @@
   },
   "homepage": "https://github.com/stingerlabs/password-constable#readme",
   "dependencies": {
-    "zxcvbn": "4.2.0",
-    "password-sheriff": "git://github.com/stingerlabs/password-sheriff.git#6dbf2ac45248f025402ffc6132f5a3c2a64c123c"
+    "password-sheriff": "1.0.1",
+    "zxcvbn": "4.4.1"
   },
   "devDependencies": {
     "babel": "6.3.26",
