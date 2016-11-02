@@ -55,7 +55,7 @@ describe('password-constable', () => {
 		it('should be passing when requiring special characters and providing them', () => {
 			expect(Constable.test('fff&', {require: ['specialCharacters']}).result).to.equal(true);
 		});
-		it('should be passwing when not requiring special characters', () => {
+		it('should be passing when not requiring special characters', () => {
 			expect(Constable.test('fff').result).to.equal(true);
 		});
 	});
