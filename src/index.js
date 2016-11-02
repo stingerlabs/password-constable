@@ -127,10 +127,15 @@ const containsDictionaryWords = testString => {
 	return containsWord;
 };
 
-//@TODO Cleanup for es6 exports
-const Constable = {
+module.exports = {
 	strength: getPasswordStrength,
 	test: testPassword
 };
 
-export default Constable;
+// //@TODO Cleanup for es6 exports
+// const Constable = {
+// 	strength: getPasswordStrength,
+// 	test: testPassword
+// };
+//
+// export default Constable;

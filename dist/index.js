@@ -1,9 +1,5 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
 var _passwordSheriff = require('password-sheriff');
 
 var _zxcvbn = require('zxcvbn');
@@ -144,10 +140,15 @@ var containsDictionaryWords = function containsDictionaryWords(testString) {
 	return containsWord;
 };
 
-//@TODO Cleanup for es6 exports
-var Constable = {
+module.exports = {
 	strength: getPasswordStrength,
 	test: testPassword
 };
 
-exports.default = Constable;
+// //@TODO Cleanup for es6 exports
+// const Constable = {
+// 	strength: getPasswordStrength,
+// 	test: testPassword
+// };
+//
+// export default Constable;
