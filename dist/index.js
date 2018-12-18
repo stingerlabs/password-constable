@@ -13,7 +13,7 @@ var getPasswordStrength = function getPasswordStrength(password) {
 };
 
 var testPassword = function testPassword(password) {
-	var requirements = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+	var requirements = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
 	var response = {};
 	var errors = {};
@@ -107,7 +107,7 @@ DictionaryWordsRule.prototype.validate = function (options) {
 };
 
 DictionaryWordsRule.prototype.assert = function (options) {
-	var password = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
+	var password = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
 
 	return !(options.allow === false && containsDictionaryWords(password));
 };
