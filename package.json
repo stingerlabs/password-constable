@@ -20,8 +20,8 @@
   },
   "homepage": "https://github.com/stingerlabs/password-constable#readme",
   "dependencies": {
-    "password-sheriff": "1.0.1",
-    "zxcvbn": "4.4.1"
+    "password-sheriff": "1.1.0",
+    "zxcvbn": "4.4.2"
   },
   "devDependencies": {
     "babel": "6.3.26",
